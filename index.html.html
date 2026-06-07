@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arábia Saudita — Trabalho Escolar</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root {
+    --green: #1a5c2a;
+    --green-light: #2d8a45;
+    --gold: #c8922a;
+    --gold-light: #e8b84b;
+    --cream: #f5f0e8;
+    --sand: #e8d5b0;
+    --dark: #1a1a1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--green);
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.4);
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: #fff; text-decoration: none;
+    font-size: .78rem; font-weight: 700; letter-spacing: .05em;
+    padding: 5px 12px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.3);
+    transition: all .2s;
+    white-space: nowrap;
+  }
+  nav a:hover, nav a.active { background: var(--gold); border-color: var(--gold); }
+  nav .logo { color: var(--gold-light); font-family:'Playfair Display',serif; font-size:1rem; margin-right:8px; }
+
+  /* ── SECTIONS ── */
+  section {
+    min-height: 100vh;
+    padding: 90px 20px 60px;
+    display: none;
+  }
+  section.active { display: block; }
+
+  /* ── PAGE: QR CODES ── */
+  #qr-page { background: var(--cream); }
+  .qr-header {
+    text-align: center; margin-bottom: 40px;
+  }
+  .qr-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--green); margin-bottom: 8px;
+  }
+  .qr-header p { color: #666; font-size: .95rem; }
+
+  .qr-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px; max-width: 960px; margin: 0 auto;
+  }
+  .qr-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 20px 22px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,.1);
+    border: 2px solid var(--sand);
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+  }
+  .qr-num {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--green); color: #fff;
+    font-weight: 900; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .qr-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; color: var(--green); line-height: 1.3;
+  }
+  .qr-card canvas, .qr-card img { border: 3px solid var(--sand); border-radius: 8px; }
+  .qr-card small { color: #888; font-size: .75rem; }
+
+  .print-btn {
+    display: block; margin: 36px auto 0;
+    padding: 14px 36px;
+    background: var(--green); color: #fff;
+    font-weight: 700; font-size: 1rem;
+    border: none; border-radius: 30px; cursor: pointer;
+    letter-spacing: .05em;
+    box-shadow: 0 4px 16px rgba(26,92,42,.4);
+    transition: transform .15s;
+  }
+  .print-btn:hover { transform: translateY(-2px); }
+
+  /* ── TEMA PAGES ── */
+  .tema-hero {
+    border-radius: 20px; overflow: hidden;
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+    color: #fff;
+    padding: 48px 32px;
+    max-width: 900px; margin: 0 auto 36px;
+    position: relative;
+  }
+  .tema-hero::before {
+    content: '';
+    position: absolute; top: -20px; right: -20px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,.05);
+    border-radius: 50%;
+  }
+  .tema-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    margin-bottom: 12px; line-height: 1.2;
+  }
+  .tema-hero p { font-size: 1.05rem; opacity: .9; max-width: 600px; }
+  .tema-flag { font-size: 3rem; margin-bottom: 16px; display: block; }
+
+  .tema-body { max-width: 900px; margin: 0 auto; }
+
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    border-left: 4px solid var(--green);
+  }
+  .card h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--green); font-size: 1.3rem; margin-bottom: 12px;
+  }
+  .card p, .card li { font-size: .97rem; line-height: 1.7; color: #333; }
+  .card ul { padding-left: 20px; }
+  .card ul li { margin-bottom: 6px; }
+
+  .highlight-box {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    border-radius: 14px; padding: 22px 28px; margin-bottom: 20px;
+    color: #fff;
+  }
+  .highlight-box h3 { font-family:'Playfair Display',serif; font-size:1.1rem; margin-bottom:8px; }
+  .highlight-box p { font-size:.95rem; opacity:.95; line-height:1.6; }
+
+  .two-col {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;
+  }
+  @media(max-width:600px){ .two-col { grid-template-columns:1fr; } }
+
+  .stat {
+    text-align: center; padding: 24px;
+    background: var(--green); color: #fff;
+    border-radius: 14px;
+  }
+  .stat .num {
+    font-family:'Playfair Display',serif;
+    font-size: 2.4rem; color: var(--gold-light); display:block;
+  }
+  .stat small { font-size: .85rem; opacity: .85; }
+
+  .tag {
+    display: inline-block; background: var(--sand);
+    color: var(--green); font-weight: 700; font-size: .78rem;
+    padding: 4px 12px; border-radius: 20px; margin: 4px 3px;
+  }
+
+  .curiosidade {
+    background: #fff3cd; border: 1px solid var(--gold);
+    border-radius: 12px; padding: 18px 22px; margin: 16px 0;
+  }
+  .curiosidade strong { color: var(--gold); }
+
+  /* ── PRINT ── */
+  @media print {
+    nav, .print-btn, section:not(.active) { display: none !important; }
+    section.active { display: block !important; padding: 20px; }
+    .qr-grid { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">🇸🇦 Arábia Saudita</span>
+  <a href="#" onclick="show('qr-page')" class="active" id="btn-qr">📄 QR Codes</a>
+  <a href="#" onclick="show('tema1')" id="btn-tema1">💰 País Rico</a>
+  <a href="#" onclick="show('tema2')" id="btn-tema2">📖 Significado</a>
+  <a href="#" onclick="show('tema3')" id="btn-tema3">👗 Vestimentas</a>
+  <a href="#" onclick="show('tema4')" id="btn-tema4">🏙️ Cidades</a>
+</nav>
+
+<!-- ════════════════════════════════ QR PAGE ════════════════════════════════ -->
+<section id="qr-page" class="active">
+  <div class="qr-header">
+    <h1>🇸🇦 QR Codes do Trabalho</h1>
+    <p>Imprima esta página e recorte cada QR Code para colar nos espaços brancos do cartaz.</p>
+    <p style="margin-top:6px;font-size:.85rem;color:#999;">⚠️ Abra este arquivo num servidor local ou GitHub Pages para os links funcionarem corretamente.</p>
+  </div>
+
+  <div class="qr-grid">
+    <div class="qr-card">
+      <div class="qr-num">1</div>
+      <h3>A Arábia Saudita é um dos países mais ricos do mundo!</h3>
+      <div id="qr1"></div>
+      <small>Aponte a câmera e descubra!</small>
+    </div>
+    <div class="qr-card">
+      <div class="qr-num">2</div>
+      <h3>O que significa Arábia Saudita?</h3>
+      <div id="qr2"></div>
+      <small>Aponte a câmera e saiba mais!</small>
+    </div>
+    <div class="qr-card">
+      <div class="qr-num">3</div>
+      <h3>Como são as vestimentas das mulheres?</h3>
+      <div id="qr3"></div>
+      <small>Aponte a câmera e descubra!</small>
+    </div>
+    <div class="qr-card">
+      <div class="qr-num">4</div>
+      <h3>Cidades modernas, tradições milenares!</h3>
+      <div id="qr4"></div>
+      <small>Aponte a câmera e descubra!</small>
+    </div>
+  </div>
+
+  <button class="print-btn" onclick="window.print()">🖨️ Imprimir QR Codes</button>
+</section>
+
+<!-- ════════════════════════════════ TEMA 1 ════════════════════════════════ -->
+<section id="tema1">
+  <div class="tema-hero">
+    <span class="tema-flag">🛢️</span>
+    <h1>A Arábia Saudita é um dos países mais ricos do mundo!</h1>
+    <p>Descubra por que esse país do Oriente Médio se tornou uma das maiores economias do planeta.</p>
+  </div>
+  <div class="tema-body">
+    <div class="two-col">
+      <div class="stat"><span class="num">#1</span><small>maior exportador de petróleo do mundo</small></div>
+      <div class="stat"><span class="num">17%</span><small>das reservas mundiais de petróleo</small></div>
+    </div>
+    <div class="card">
+      <h2>⛽ Por que é rica?</h2>
+      <p>A Arábia Saudita possui <strong>imensas reservas de petróleo</strong> — o "ouro negro". Esse recurso ajudou o país a desenvolver sua economia e investir em cidades modernas, transporte e tecnologia. Por décadas, o petróleo foi a principal fonte de riqueza do país.</p>
+    </div>
+    <div class="highlight-box">
+      <h3>💡 Curiosidade</h3>
+      <p>A Arábia Saudita está construindo a cidade futurista chamada <strong>NEOM</strong>, um dos maiores projetos urbanos do mundo, com tecnologia de ponta e energia 100% renovável!</p>
+    </div>
+    <div class="card">
+      <h2>🏗️ Onde o dinheiro é investido?</h2>
+      <ul>
+        <li>🏙️ <strong>Cidades modernas</strong> — arranha-céus, infraestrutura e urbanização de ponta</li>
+        <li>✈️ <strong>Aeroportos internacionais</strong> — conectando o país ao mundo todo</li>
+        <li>💻 <strong>Tecnologia</strong> — investimentos em startups e inovação</li>
+        <li>🌍 <strong>Turismo</strong> — novos destinos e patrimônios históricos abertos ao mundo</li>
+        <li>🎓 <strong>Educação</strong> — universidades de excelência e bolsas internacionais</li>
+      </ul>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h2>🌐 Você sabia?</h2>
+        <p>A Arábia Saudita recebe <strong>milhões de visitantes</strong> todos os anos para viagens de negócios, turismo religioso (Meca e Medina) e eventos internacionais.</p>
+      </div>
+      <div class="card">
+        <h2>🔮 Para saber mais</h2>
+        <p>O país busca <strong>diversificar sua economia</strong> para depender cada vez menos do petróleo — investindo em educação, inovação e sustentabilidade.</p>
+      </div>
+    </div>
+    <div class="curiosidade">
+      <strong>⭐ O que você aprendeu?</strong><br>
+      Agora você já sabe por que a Arábia Saudita é um dos países mais ricos do mundo e como ela usa essa riqueza para investir no futuro. <em>Conhecimento é algo que levamos para a vida toda! 💛</em>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ TEMA 2 ════════════════════════════════ -->
+<section id="tema2">
+  <div class="tema-hero">
+    <span class="tema-flag">📖</span>
+    <h1>O que significa Arábia Saudita?</h1>
+    <p>O nome tem uma origem fascinante que mistura geografia e história da família real!</p>
+  </div>
+  <div class="tema-body">
+    <div class="two-col">
+      <div class="card" style="border-left-color:var(--green)">
+        <h2>🗺️ ARÁBIA</h2>
+        <p>Vem da <strong>Península Arábica</strong>, região onde o país está localizado. É uma das maiores penínsulas do mundo, cercada pelo Mar Vermelho, Mar Arábico e Golfo Pérsico.</p>
+      </div>
+      <div class="card" style="border-left-color:var(--gold)">
+        <h2>👑 SAUDITA</h2>
+        <p>Vem da <strong>família Al Saud</strong>, que fundou e unificou o país moderno. É um dos poucos países do mundo que recebeu o nome de uma família real!</p>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <h3>❝ Em resumo…</h3>
+      <p style="font-size:1.1rem;font-weight:700;">"A terra árabe governada pela família Saud."</p>
+    </div>
+    <div class="card">
+      <h2>📅 Você sabia?</h2>
+      <p>A Arábia Saudita foi <strong>oficialmente criada em 1932</strong> pelo rei Abdulaziz Al Saud. Antes disso, a região era dividida em diferentes territórios e tribos.</p>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h2>🌍 Curiosidade!</h2>
+        <p>A Arábia Saudita é um dos <strong>poucos países do mundo</strong> que recebeu o nome de uma família real — algo bastante raro na história dos países modernos!</p>
+      </div>
+      <div class="card">
+        <h2>🔮 Para saber mais</h2>
+        <p>O país busca diversificar sua economia e investe em <strong>educação, inovação e sustentabilidade</strong> para construir um futuro ainda melhor, sem esquecer suas raízes.</p>
+      </div>
+    </div>
+    <div class="curiosidade">
+      <strong>⭐ O que você aprendeu?</strong><br>
+      Agora você já sabe mais sobre a Arábia Saudita: sua origem, seu nome, suas tradições e curiosidades! <em>Conhecimento é uma viagem que levamos para a vida! 💛</em>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ TEMA 3 ════════════════════════════════ -->
+<section id="tema3">
+  <div class="tema-hero">
+    <span class="tema-flag">👗</span>
+    <h1>Como são as vestimentas das mulheres na Arábia Saudita?</h1>
+    <p>A moda na Arábia Saudita mistura tradição, cultura e modernidade. Cada escolha de roupa carrega valores culturais, respeito e identidade.</p>
+  </div>
+  <div class="tema-body">
+    <div class="card">
+      <h2>🖤 Abaya</h2>
+      <p>A abaya é uma <strong>roupa longa, solta e elegante</strong>, usada sobre outras roupas. É a peça mais tradicional e comum entre as mulheres. A cor preta é muito comum, mas hoje existem modelos com bordados, cores e estilos variados!</p>
+    </div>
+    <div class="card">
+      <h2>🧕 Hijab</h2>
+      <p>O hijab é o <strong>lenço usado para cobrir os cabelos</strong>. Existem vários estilos e tecidos, permitindo combinações elegantes. Cada mulher pode escolher como usá-lo da forma que se sentir mais confortável.</p>
+    </div>
+    <div class="highlight-box">
+      <h3>✨ Moda Moderna</h3>
+      <p>Hoje, muitas mulheres sauditas combinam peças tradicionais com roupas modernas, acessórios, bolsas e sapatos estilosos. A moda está sempre evoluindo, mantendo o respeito à cultura e às tradições.</p>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h2>💡 Você sabia?</h2>
+        <ul>
+          <li>As roupas tradicionais fazem parte da cultura e da história do país há muitos anos.</li>
+          <li>Nas grandes cidades, é comum encontrar mulheres usando uma mistura de roupas tradicionais e moda contemporânea.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>🌟 Mudanças e Liberdades</h2>
+        <ul>
+          <li>Nos últimos anos, as mulheres conquistaram <strong>mais liberdade de escolha</strong> sobre como se vestir.</li>
+          <li>Elas têm se destacado em diversas áreas: educação, ciência, esportes, negócios e muito mais!</li>
+        </ul>
+      </div>
+    </div>
+    <div class="curiosidade">
+      <strong>🌍 Para refletir</strong><br>
+      Cada cultura tem suas roupas e tradições, e todas elas merecem respeito. A diversidade nos torna um mundo melhor! <em>A vestimenta das mulheres na Arábia Saudita é muito mais do que moda: é tradição, identidade e orgulho! 💛</em>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ TEMA 4 ════════════════════════════════ -->
+<section id="tema4">
+  <div class="tema-hero">
+    <span class="tema-flag">🏙️</span>
+    <h1>Cidades Modernas, Tradições Milenares</h1>
+    <p>A Arábia Saudita é um país que une passado e futuro de forma única e surpreendente!</p>
+  </div>
+  <div class="tema-body">
+    <div class="card">
+      <h2>🤝 Tradição que permanece</h2>
+      <ul>
+        <li>👨‍👩‍👧 As famílias valorizam muito a <strong>hospitalidade</strong> — receber bem os visitantes é uma honra.</li>
+        <li>🎵 Festas e costumes tradicionais ainda fazem parte da cultura no dia a dia.</li>
+        <li>🕌 A arquitetura moderna convive com <strong>construções históricas</strong> de séculos atrás.</li>
+        <li>💡 O país investe em inovação sem deixar de lado suas raízes.</li>
+      </ul>
+    </div>
+    <div class="highlight-box">
+      <h3>💡 Curiosidade</h3>
+      <p>Você sabia que a Arábia Saudita possui algumas das cidades mais <strong>modernas</strong> do Oriente Médio e, ao mesmo tempo, locais <strong>históricos</strong> com centenas de anos?</p>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h2>🚀 Exemplos de Modernidade</h2>
+        <ul>
+          <li>🏢 Arranha-céus modernos</li>
+          <li>🚄 Trens de alta velocidade</li>
+          <li>🛍️ Grandes centros comerciais</li>
+          <li>🌆 Projetos futuristas como <strong>NEOM</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>🐪 Você sabia?</h2>
+        <ul>
+          <li>🌴 A tamareira é uma árvore muito importante na cultura e na alimentação saudita.</li>
+          <li>☕ O café árabe é servido como sinal de boas-vindas e respeito.</li>
+          <li>🐫 Os camelos continuam sendo parte da vida e das tradições no deserto.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="curiosidade">
+      <strong>⭐ E foi isso que você aprendeu!</strong><br>
+      Agora você já conhece um pouco mais sobre a Arábia Saudita e descobriu como esse país consegue preservar suas tradições enquanto se prepara para o futuro. <em>Conhecimento é algo que levamos para a vida toda! 💛</em>
+    </div>
+  </div>
+</section>
+
+<script>
+// ── Navegação ──
+function show(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('btn-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── Gera QR Codes ──
+function getBaseURL() {
+  const url = window.location.href.split('?')[0].split('#')[0];
+  return url;
+}
+
+window.addEventListener('load', function() {
+  const base = getBaseURL();
+
+  const temas = [
+    { id: 'qr1', hash: 'tema1', size: 160 },
+    { id: 'qr2', hash: 'tema2', size: 160 },
+    { id: 'qr3', hash: 'tema3', size: 160 },
+    { id: 'qr4', hash: 'tema4', size: 160 },
+  ];
+
+  temas.forEach(function(t) {
+    new QRCode(document.getElementById(t.id), {
+      text: base + '?s=' + t.hash,
+      width: t.size,
+      height: t.size,
+      colorDark: '#1a5c2a',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  });
+});
+
+// ── Roteamento por query string ──
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const s = params.get('s');
+  if (s && document.getElementById(s)) {
+    show(s);
+  }
+})();
+</script>
+</body>
+</html>
