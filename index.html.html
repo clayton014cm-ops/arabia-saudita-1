@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arábia Saudita — Panfleto</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Caveat:wght@600&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #d4c9b0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  font-family: 'Lato', sans-serif;
+}
+
+.panfleto {
+  width: 100%;
+  max-width: 900px;
+  background: #f0e8d8;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,.35);
+  position: relative;
+}
+
+/* ── TOPO RASGADO ── */
+.topo {
+  background: #f0e8d8;
+  padding: 32px 36px 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: 16px;
+  min-height: 220px;
+}
+
+/* bandeira */
+.bandeira {
+  width: 90px;
+  margin-top: 10px;
+  flex-shrink: 0;
+}
+.bandeira-rect {
+  width: 90px; height: 60px;
+  background: #1a5c2a;
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  box-shadow: 2px 2px 6px rgba(0,0,0,.3);
+}
+.bandeira-rect::after {
+  content: '☪';
+  color: #fff;
+  font-size: 22px;
+  letter-spacing: -2px;
+}
+.pole {
+  width: 4px; height: 80px;
+  background: #8B7355;
+  margin-left: 8px;
+  border-radius: 2px;
+  display: inline-block;
+  vertical-align: top;
+}
+.flag-wrap { display: flex; align-items: flex-start; }
+
+/* título central */
+.titulo-bloco { text-align: center; padding-top: 8px; }
+.titulo-sub {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: #2a2a2a;
+  margin-bottom: 4px;
+}
+.titulo-main {
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 7vw, 4.8rem);
+  color: #1a4a24;
+  line-height: .95;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+.titulo-main span { display: block; }
+.subtag {
+  display: inline-block;
+  background: #c8922a;
+  color: #fff;
+  font-family: 'Caveat', cursive;
+  font-size: clamp(.9rem, 2vw, 1.25rem);
+  padding: 4px 20px;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+/* cidade direita */
+.cidade-img {
+  width: 160px;
+  flex-shrink: 0;
+  position: relative;
+}
+.cidade-circulo {
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 60%, #e8c97a 0%, #c8922a 60%, #8B6914 100%);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  font-size: 64px;
+  box-shadow: inset 0 -8px 20px rgba(0,0,0,.2);
+}
+.aluno {
+  font-family: 'Caveat', cursive;
+  font-size: .85rem;
+  color: #444;
+  text-align: right;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+/* ── PARTE INFERIOR: 4 CARDS ── */
+.cards-area {
+  background: #f0e8d8;
+  padding: 0 20px 28px;
+}
+
+/* faixa rasgada decorativa entre topo e cards */
+.tear {
+  width: 100%;
+  height: 18px;
+  background: #f0e8d8;
+  position: relative;
+  margin-bottom: 4px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.card {
+  border-radius: 14px;
+  padding: 14px 12px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.card:nth-child(1) { background: #ddd5c0; }
+.card:nth-child(2) { background: #c8b99a; }
+.card:nth-child(3) { background: #ddd5c0; }
+.card:nth-child(4) { background: #ddd5c0; }
+
+.card-icon {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: #1a5c2a;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.card-titulo {
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: .72rem;
+  color: #1a1a1a;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.3;
+  letter-spacing: .03em;
+}
+.card-titulo .destaque { color: #c8922a; }
+
+/* QR Code box */
+.qr-wrap {
+  background: #fff;
+  border-radius: 10px;
+  padding: 6px;
+  width: 110px; height: 110px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+  position: relative;
+}
+.qr-wrap canvas, .qr-wrap img {
+  border-radius: 4px;
+  display: block;
+}
+
+/* cantos decorativos dourados */
+.qr-corner {
+  position: absolute;
+  width: 14px; height: 14px;
+  border-color: #c8922a;
+  border-style: solid;
+}
+.qr-corner.tl { top: -2px; left: -2px; border-width: 3px 0 0 3px; }
+.qr-corner.tr { top: -2px; right: -2px; border-width: 3px 3px 0 0; }
+.qr-corner.bl { bottom: -2px; left: -2px; border-width: 0 0 3px 3px; }
+.qr-corner.br { bottom: -2px; right: -2px; border-width: 0 3px 3px 0; }
+
+.card-cta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Lato', sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  color: #3a3a3a;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.seta {
+  font-size: .85rem;
+  color: #1a5c2a;
+  transform: rotate(180deg);
+  display: inline-block;
+}
+
+/* folhas de palmeira decorativas */
+.palmeira-esq {
+  position: absolute;
+  left: -10px; top: 60px;
+  font-size: 80px;
+  opacity: .6;
+  transform: rotate(-20deg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* padrão geométrico árabe no canto inferior */
+.arabesco {
+  position: absolute;
+  bottom: 0; right: 0;
+  font-size: 60px;
+  opacity: .12;
+  pointer-events: none;
+}
+
+/* botão imprimir */
+.btn-print {
+  margin-top: 20px;
+  padding: 12px 36px;
+  background: #1a5c2a; color: #fff;
+  border: none; border-radius: 30px;
+  font-size: 1rem; font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(26,92,42,.4);
+  letter-spacing: .04em;
+}
+.btn-print:hover { background: #2d8a45; }
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .btn-print { display: none; }
+  .panfleto { box-shadow: none; max-width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .topo { grid-template-columns: 1fr; justify-items: center; }
+  .cidade-img { display: none; }
+  .aluno { text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="panfleto">
+
+  <!-- TOPO -->
+  <div class="topo">
+    <div class="flag-wrap">
+      <div style="display:flex;flex-direction:column;align-items:flex-start">
+        <div style="display:flex;align-items:flex-start">
+          <span class="pole"></span>
+          <div class="bandeira-rect"></div>
+        </div>
+        <!-- palmeira esq -->
+        <div style="font-size:70px;margin-top:-10px;margin-left:-8px;opacity:.7;transform:rotate(-15deg)">🌴</div>
+      </div>
+    </div>
+
+    <div class="titulo-bloco">
+      <div class="titulo-sub">Você realmente conhece a</div>
+      <div class="titulo-main">
+        <span>Arábia</span>
+        <span>Saudita?</span>
+      </div>
+      <div class="subtag">Não sabe? Então venha saber mais!</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+      <div class="aluno">Fernanda e Julia<br><strong>Amc 7a</strong></div>
+      <div class="cidade-circulo">🕌</div>
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="cards-area">
+    <div class="cards-grid">
+
+      <!-- Card 1 -->
+      <div class="card">
+        <div class="card-icon">💰</div>
+        <div class="card-titulo">
+          Você sabia que a Arábia Saudita é um dos países
+          <span class="destaque">MAIS RICOS</span>
+          do mundo?
+        </div>
+        <div class="qr-wrap" id="qr1-wrap">
+          <div class="qr-corner tl"></div>
+          <div class="qr-corner tr"></div>
+          <div class="qr-corner bl"></div>
+          <div class="qr-corner br"></div>
+          <div id="qr1"></div>
+        </div>
+        <div class="card-cta"><span class="seta">↙</span> Aponte a câmera e descubra!</div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card">
+        <div class="card-icon">📖</div>
+        <div class="card-titulo">
+          Sabe o significado do nome
+          <span class="destaque">ARÁBIA SAUDITA?</span>
+        </div>
+        <div class="qr-wrap" id="qr2-wrap">
+          <div class="qr-corner tl"></div>
+          <div class="qr-corner tr"></div>
+          <div class="qr-corner bl"></div>
+          <div class="qr-corner br"></div>
+          <div id="qr2"></div>
+        </div>
+        <div class="card-cta"><span class="seta">↙</span> Aponte a câmera e saiba mais!</div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card">
+        <div class="card-icon">👗</div>
+        <div class="card-titulo">
+          Como são as vestimentas das
+          <span class="destaque">MULHERES</span>
+          na Arábia Saudita?
+        </div>
+        <div class="qr-wrap" id="qr3-wrap">
+          <div class="qr-corner tl"></div>
+          <div class="qr-corner tr"></div>
+          <div class="qr-corner bl"></div>
+          <div class="qr-corner br"></div>
+          <div id="qr3"></div>
+        </div>
+        <div class="card-cta"><span class="seta">↙</span> Aponte a câmera e descubra!</div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card">
+        <div class="card-icon">🏙️</div>
+        <div class="card-titulo">
+          Cidades modernas,
+          <span class="destaque">TRADIÇÕES MILENARES!</span>
+        </div>
+        <div class="qr-wrap" id="qr4-wrap">
+          <div class="qr-corner tl"></div>
+          <div class="qr-corner tr"></div>
+          <div class="qr-corner bl"></div>
+          <div class="qr-corner br"></div>
+          <div id="qr4"></div>
+        </div>
+        <div class="card-cta"><span class="seta">↙</span> Aponte a câmera e descubra!</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<button class="btn-print" onclick="window.print()">🖨️ Imprimir Panfleto</button>
+
+<script>
+const BASE = "https://clayton014cm-ops.github.io/arabia-saudita-1/";
+
+const temas = [
+  { el: "qr1", url: BASE + "?s=tema1" },
+  { el: "qr2", url: BASE + "?s=tema2" },
+  { el: "qr3", url: BASE + "?s=tema3" },
+  { el: "qr4", url: BASE + "?s=tema4" },
+];
+
+temas.forEach(function(t) {
+  new QRCode(document.getElementById(t.el), {
+    text: t.url,
+    width: 96,
+    height: 96,
+    colorDark: "#1a5c2a",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+});
+</script>
+</body>
+</html>
